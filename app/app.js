@@ -63,6 +63,23 @@ io.sockets.on('connection', function (socket) {
         socket.join(room);
     });
 
+
+
+	socket.on('camera.originalpicture', function (data) {
+		// save it, just for fun
+		Step(
+			function () {
+				var picname = "picorg_" + data.id + ".png";
+				var buffer = new Buffer(data.picture.replace(/^data:image\/png;base64,/,""), 'base64');
+				require("fs").writeFile(__dirname + "/public/mustacheimages/" + picname, buffer, this);
+			},
+
+			function (err) {
+				if(err) throw err;
+			}
+		);
+	});
+
 	socket.on('camera.newpicture', function (data) {
 		//doorgeven aan de wall:
 		io.sockets.in('wall').emit('wall.newpicture', data);

@@ -19,7 +19,10 @@ App = {
 		App.video = document.querySelector('video'),
 		App.canvas = document.querySelector('#maincanvas'),
 		App.mustache = new Image();
-		App.mustache.src = "/images/mustache.png";
+				App.mustache.onload = function(){
+			console.log("beard loaded");
+		}
+		App.mustache.src = "/images/beards/beard_04.png";
 
 
 		// Connect webcam to video:
@@ -46,6 +49,8 @@ App = {
 		// On key press:
 		$(document).keydown(function(evt) {
 
+
+
 			//BACKSPACE
 			if (evt.keyCode == 8) {
 				evt.preventDefault();
@@ -59,6 +64,7 @@ App = {
 
 				App.starttime = (new Date()).getTime();
 
+				var picid = App.generateID();
 				var found = false;
 
 				Step(
@@ -71,12 +77,20 @@ App = {
 					function (err) {
 						if(err) throw err;
 
+
+						//ook origineel  naar server sturen:
+						App.socket.emit('camera.originalpicture', {
+							picture: App.canvas.toDataURL('image/png'),
+							id: picid
+						});
+
+
 						App.detectObjects(App.canvas, 0, 0, App.canvas.width, App.canvas.height, haarcascade_frontalface_alt2, this);
 					},
 
 					function (err, faces) {
-						console.log("faces done");
 						if(err) throw err;
+						console.log("faces done");
 
 
 						for(var i=0; i < faces.length; i++){
@@ -144,7 +158,7 @@ App = {
 						if(err) throw err;
 
 						App.frameIt(App.canvas);
-						App.sendToServer(App.canvas);
+						App.sendToServer(App.canvas, picid);
 
 						$("#instructions").html("Press BACKSPACE to try again");
 
@@ -257,7 +271,7 @@ App = {
 		var h = (App.mustache.height * w)/App.mustache.width; //juiste verhouding voor hoogte
 
 		var x = rect.x + rect.width/2 - w/2; // int midden van het kot
-		var y = rect.y - h/2; //beetje boven het kot
+		var y = rect.y - h/4;
 
 		ctx.drawImage(App.mustache, x, y, w, h);
 	},
@@ -274,7 +288,7 @@ App = {
 				red: 227,
 				green: 12,
 				blue: 169,
-				strength: 0.1
+				strength: 0.01
 			},
 			desaturate: false,
 			allowMultiEffect: false,
@@ -294,7 +308,7 @@ App = {
 		ctx.strokeRect(0,0,canvas.width,canvas.height);
 	},
 
-	sendToServer: function(canvas){
+	sendToServer: function(canvas, picid){
 		var scaledcanvas =  document.querySelector('#scaledcanvas');
 		var ctx = scaledcanvas.getContext('2d');
 
@@ -306,7 +320,7 @@ App = {
 		App.socket.emit('camera.newpicture', {
 			picture: canvas.toDataURL('image/png'),
 			scaledpicture: scaledcanvas.toDataURL('image/jpeg'),
-			id: App.generateID()
+			id: picid
 		});
 	}
 
