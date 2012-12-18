@@ -1,10 +1,9 @@
+
 App = {
 
 	id: null,
 
 	start: function () {
-		$("#picture").hide();
-		App.disableUI();
 
 		// socket.io initialiseren
 		App.socket = io.connect(window.location.hostname);
@@ -14,58 +13,70 @@ App = {
 			App.socket.emit('room', 'controller');
 		});
 
-		App.socket.on('controller.newpicture', function (data) {
+		App.people =  new App.People();
+		App.peopleListView = new App.PeopleListView();
 
-			var image = new Image();
-			image.onload = function(){
-				$("#picture").attr('src', data.picture);
-				App.id = data.id;
-				$("#picture").fadeIn();
-				App.enableUI();
-			};
-			image.src = data.picture;
+
+		App.socket.on('controller.originalpicture', function (data) {
+			App.people.add(data);
 		});
-
-		App.socket.on('controller.clearcontroller', function (data) {
-			console.log("clearing controller")
-
-			$("#picture").fadeOut(function(){
-				$("#picture").attr('src', '');
-				App.id = null;
-				App.disableUI();
-			});
-		});
-
-
-		$("#publish").click(App.publishToWall);
-	},
-
-
-	publishToWall: function (event) {
-		App.socket.emit('controller.publishtowall', {
-			id: App.id,
-			twitterhandle: $("#twitterhandle").val(),
-			showontwitter: $("#checkshowontwitter").is(':checked')
-		});
-
-		$("#picture").fadeOut(function(){
-			$("#picture").attr('src', '');
-			App.id = null;
-			App.disableUI();
-		});
-	},
-
-	disableUI: function() {
-		$("#twitterhandle").val(""),
-		$("#checkshowontwitter").removeAttr('checked');
-		$("button").attr('disabled', 'disabled');
-		//$("input").attr('disabled', 'disabled');
-	},
-
-	enableUI: function() {
-		$("button").removeAttr('disabled');
-		$("input").removeAttr('disabled');
 	}
 }
+
+
+App.PeopleListView = Backbone.View.extend({
+	el: "#people",
+
+	initialize: function(){
+		App.people.bind("add", this.renderItem, this);
+		App.people.bind("reset", this.renderAll, this);
+	},
+
+	renderItem: function(model){
+		var personView = new App.PersonView({model: model});
+		$(this.el).append(personView.render().el);
+	},
+
+	renderAll: function(collection){
+		collection.forEach(this.renderItem, this);
+	}
+});
+
+App.PersonView = Backbone.View.extend({
+	tagName: "li",
+
+	events:{
+		'click #send': 'sendname'
+	}
+
+	initialize: function(){
+		this.template = $("#personview-template");
+		this.model.bind('destroy', this.destroy_handler, this);
+	},
+
+	render: function(){
+		var html = this.template.tmpl(this.model.toJSON());
+		$(this.el).html(html);
+		return this;
+	},
+
+	sendname: function(event){
+		App.socket.emit('controller.sendname', {id: this.model.id, name: "test"});
+	}
+
+	destroy_handler: function(model){
+		this.remove();
+	}
+});
+
+//Backbone Model:
+App.Person = Backbone.Model.extend({
+});
+
+// Backbone Collection
+App.People = Backbone.Collection.extend({
+	model: App.Person
+});
+
 
 $(App.start);

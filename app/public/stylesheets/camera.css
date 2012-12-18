@@ -1,0 +1,27 @@
+#title{
+	color: #E00000;
+	font-family: 'christmas';
+    font-size: 100px;
+    font-weight: normal;
+}
+
+#tryagain{
+	display:none;
+	color: #E00000;
+}
+
+#instructions{
+	color: #E00000;
+}
+
+#timecompletion{
+	font-size:12px;
+}
+
+@font-face {
+    font-family: 'christmas';
+    src: url('Kingthings Christmas 2.2.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}

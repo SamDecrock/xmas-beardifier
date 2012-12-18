@@ -285,10 +285,10 @@ App = {
 			},
 			noise: 20,
 			screen: {
-				red: 227,
+				red: 255,
 				green: 12,
-				blue: 169,
-				strength: 0.01
+				blue: 12,
+				strength: 0.2
 			},
 			desaturate: false,
 			allowMultiEffect: false,
@@ -303,7 +303,7 @@ App = {
 
 		//kaderke er rond
 		ctx.lineWidth = 15;
-		ctx.strokeStyle="rgba(0,0,0,1)";
+		ctx.strokeStyle="rgba(224,0,0,1)";
 		ctx.globalCompositeOperation = 'source-over';
 		ctx.strokeRect(0,0,canvas.width,canvas.height);
 	},
