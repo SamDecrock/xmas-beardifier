@@ -47,11 +47,11 @@ App.PersonView = Backbone.View.extend({
 
 	events:{
 		'click #send': 'sendname'
-	}
+	},
 
 	initialize: function(){
 		this.template = $("#personview-template");
-		this.model.bind('destroy', this.destroy_handler, this);
+		this.model.bind('remove', this.removeHandler, this);
 	},
 
 	render: function(){
@@ -61,10 +61,14 @@ App.PersonView = Backbone.View.extend({
 	},
 
 	sendname: function(event){
-		App.socket.emit('controller.sendname', {id: this.model.id, name: "test"});
-	}
+		App.socket.emit('controller.sendname', {
+			id: this.model.id,
+			name: this.$("#name").val()
+		});
+		App.people.remove(this.model);
+	},
 
-	destroy_handler: function(model){
+	removeHandler: function(model){
 		this.remove();
 	}
 });

@@ -17,7 +17,7 @@ html
 			img(src='${picture}')
 			.row-fluid
 				.span6
-					select
+					select#name
 						each val, key in people
 							option(value="#{peopleSlug[key]}") #{val}
 				.span6

@@ -4,6 +4,7 @@ var socketio	= require('socket.io');
 var async		= require('async');
 var settings    = require('./settings');
 var people      = require('./people');
+var rekognition = require('./rekognition');
 
 
 var peopleSlug = [];
@@ -104,6 +105,11 @@ io.sockets.on('connection', function (socket) {
 		io.sockets.in('wall').emit('wall.publish', data);
 	});
 
+	socket.on('controller.sendname', function (data) {
+		console.log(data);
+	});
+
+
 });
 
 
@@ -167,7 +173,6 @@ function stripVowelAccent(str)
 
 	return s;
 }
-
 
 
 
