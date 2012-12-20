@@ -2,10 +2,6 @@ var express 	= require('express');
 var Step 		= require('step');
 var socketio	= require('socket.io');
 var async		= require('async');
-var settings    = require('./settings');
-
-
-
 
 /**
  * Webserver stuff:
