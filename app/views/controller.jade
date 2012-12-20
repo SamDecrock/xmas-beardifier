@@ -3,37 +3,25 @@ html
 	head
 		title= title
 		meta(charset='utf-8')
-		link(rel='stylesheet', href='//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css')
-		link(rel='stylesheet', href='/stylesheets/controller.css')
-		script(type='text/javascript', src='/socket.io/socket.io.js')
-		script(type='text/javascript', src='/javascripts/jquery-1.7.1.min.js')
-		script(type='text/javascript', src='/javascripts/jquery.tmpl.min.js')
-		script(type='text/javascript', src='/javascripts/underscore-min.js')
-		script(type='text/javascript', src='/javascripts/backbone-min.js')
-		script(type='text/javascript', src='//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js')
-		script(type='text/javascript', src='/javascripts/controller.js')
-
-		script(id="personview-template", type="text/x-jquery-tmpl")
-			img(src='${picture}')
-			.row-fluid
-				.span6
-					select#name
-						each val, key in people
-							option(value="#{peopleSlug[key]}") #{val}
-				.span6
-					button.btn.btn-primary.pull-right.btn-large#send OK
+		link(rel='stylesheet', href='/stylesheets/foundation.min.css')
+		script(src='/javascripts/jquery-1.7.1.min.js')
+		script(src='/socket.io/socket.io.js')
+		script(src='/javascripts/controller.js')
 
 
 	body
-		.container
-			.row-fluid
-				span.span6
-					.page-header
-						h1
-							small Wie is het?
-					ul#people
-				span.span6
-					.page-header
-						h1
-							small Beste foto?
-					#bestpictures
+		.row
+			.twelve.columns
+				h1 #{title}
+
+		.row
+			.six.columns
+				img#picture(style="width:100%")
+			.six.columns
+				.row
+					fieldset
+						button.radius.button.success#publish(style="width:100%; font-size:25px") Dees is een goeien
+						br
+						br
+
+

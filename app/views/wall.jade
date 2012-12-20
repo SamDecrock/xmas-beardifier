@@ -14,112 +14,14 @@ html
 		script#article-template(type='text/x-jquery-tmpl')
 			.articletitle ${title}
 			img(src="${picture}")
-			.rightpane
-				.subtitle {{html subtitle}}
-				.tweets
-					ul.tweets
-						{{each(i, tweet) tweets}}
-						li.tweet
-							.tweetitem
-								small.time ${tweet.created_at}
-								.rightpart
-									img.avatar(src="${tweet.profileimage}")
-									strong.fullname ${tweet.name}
-									span.username @${tweet.twitterhandle}
-							p.tweettext ${tweet.text}
-						{{/each}}
-		script#tweets-template(type='text/x-jquery-tmpl')
-				.articletitle ${searchterm}
-				ul.tweets.bigtweets
-					{{each(i, tweet) tweets}}
-					li.tweet
-						.tweetitem
-							small.time ${tweet.created_at}
-							.rightpart
-								img.avatar(src="${tweet.profileimage}")
-								strong.fullname ${tweet.name}
-								span.username @${tweet.twitterhandle}
-						p.tweettext ${tweet.text}
-					{{/each}}
-		script#singletweetpl(type='text/x-jquery-tmpl')
-			li.tweet
-				.tweetitem
-					small.time ${created_at}
-					.rightpart
-						img.avatar(src="${profileimage}")
-						strong.fullname ${name}
-						span.username @${twitterhandle}
-				p.tweettext ${text}
 
 	body
-		.main
-			.header
-				h1.logo
-					a(href='#', title='The Daily Mix')
-						.maintitle The Daily MiX
-						span.subtitle iMinds live edition
-				.menuwrapper
-					ul.menu
-						li
-							span.menuitem Moustaches
-								label.myCheckbox
-									input(type='checkbox', name='moustache', checked='checked')
-									span
-						li
-							span.menuitem Twitter
-								label.myCheckbox
-									input(type='checkbox', name='twitter', checked='checked')
-									span
-						li
-							span.menuitem About Us
-								label.myCheckbox
-									input(type='checkbox', name='mix', checked='checked')
-									span
-
-				.datetime
-					p Thursday
-					p November 8
-					| 2012
-
-				.headerseparator
-
-			.contentwrapper
-				.articleswrapper
-					#articles
-						.article
-							.articletitle
-							img
-							.rightpane
-								.subtitle
-								.tweets
-									ul.tweets
-						.article
-							.articletitle
-							img
-							.rightpane
-								.subtitle
-								.tweets
-									ul.tweets
-				.footerwrapper
-					.footer
-						p MiX 2012
-
-
-		.template-slide
-			.article#slide1
-				.articletitle wat is MiX?
-				img(src="/images/mixer.png", style="width: 1047px;")
-				.rightpane(style="margin-top:193px;")
-					.subtitle(style="height: 600px;") Het Media Innovatie Centrum (MiX) is een kruispunt van media, print, broadcast en games in al hun verschijningsvormen. Onze focus ligt op het in beweging zetten en omarmen van nieuwe mogelijkheden. MiX helpt een antwoord te bieden op de snelle en veranderende innovatiecontext voor de mediasector.
-
-			.article#slide2
-				img(src="/images/slide1metsnor_03.png", style="width:1711px;margin:20px 0px 0px 32px;")
-			.article#slide3
-				img(src="/images/slide2_03.png", style="width:1685px;margin-left:62px;")
-			.article#slide4
-				img(src="/images/slide3_03.png", style="width:1721px;margin:22px 0px 0px 36px;")
-			.article#slide5
-				//- .articletitle contacteer ons!
-				img(src="/images/slot_03.png", style="width:1186px;margin:40px 0px 0px 276px")
-
+		.articleswrapper
+			#articles
+				.article
+					.articletitle
+					img
+				.article
+					.articletitle
+					img
 
